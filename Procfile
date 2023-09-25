@@ -1,1 +1,1 @@
-web: cd fontend && npm install && npm run build && cd .. && python manage.py migrate && python manage.py collectstatic && gunicorn mynotes.wsgi
+web: cd frontend && npm install && npm run build && cd .. && python manage.py migrate && python manage.py collectstatic && gunicorn mynotes.wsgi
