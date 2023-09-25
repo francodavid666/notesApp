@@ -2,3 +2,5 @@ provides = ["node","python"]
 
 [variables]
 NODE_ENV = 'production'
+
+startCommand = "cd frontend && npm install && npm run build && cd .. && python manage.py migrate && python manage.py collectstatic && gunicorn mynotes.wsgi"
