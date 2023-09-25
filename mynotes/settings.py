@@ -14,6 +14,7 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+import dj_database_url
 import os
 
 
@@ -44,10 +45,14 @@ INSTALLED_APPS = [
     'rest_framework',
 
     'corsheaders',
+
+    'mynotes'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 
     'corsheaders.middleware.CorsMiddleware',
 
@@ -64,9 +69,7 @@ ROOT_URLCONF = 'mynotes.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            BASE_DIR / 'frontend/build'
-        ],
+        'DIRS': [os.path.join(BASE_DIR, 'frontend','build')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -87,8 +90,12 @@ WSGI_APPLICATION = 'mynotes.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',  # Por ejemplo, para PostgreSQL
+        'NAME': 'railway',
+        'USER': 'postgres',
+        'PASSWORD': '2aepsSne9S5qV6NDNCMK',
+        'HOST': 'containers-us-west-184.railway.app',  # Cambia esto al host de tu base de datos si es diferente
+        'PORT': '7240',  # Cambia esto al puerto de tu base de datos si es diferente
     }
 }
 
@@ -130,7 +137,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
-    BASE_DIR /'frontend/build/static'
+    os.path.join(BASE_DIR,'frontend','build')
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
@@ -141,3 +148,8 @@ STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+
+CSRF_TRUSTED_ORIGINS = ["http://*","https://tasksapi.up.railway.app"]
